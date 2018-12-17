@@ -1,0 +1,154 @@
+<div class="row" >
+	<div class="col-md-12 padding-10-10-0-20 margin-bottom-10">
+		<div class="border-bottom-2-6EABF5"><h2>Menu</h2></div>
+	</div>
+</div>
+<div class="row" ng-cloak>
+		<div class="col-md-2 padding-right-0">
+			<div class="card padding-10 border-color-6EABF5 border-right-8-6EABF5 border-left-8-6EABF5">
+
+				<ul class="list-style-none padding-inline-start-0 font-14 padding-0">
+					<h3 class="border-bottom-1-6EABF5 padding-bottom-5">Choose Category</h3>
+				  <li class="menu_sidebar" *ngFor="let item of items; let i=index;" (click)="setSelectedItem(item); currentCat = 0;"> {{item.name}}</li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-md-5 padding-right-0">
+
+			<div class="card border-color-6EABF5 margin-0-0-5-0 border-right-8-6EABF5 border-left-8-6EABF5">
+				<div class="panel-heading padding-10">
+					<h3 class="padding-bottom-5 border-bottom-1-6EABF5">{{selItem ? selItem.name : ''}}</h3>
+				</div>
+				<div class="panel-collapse font-14" *ngFor="let category of categories; let j=index;">
+					<div class="margin-left-0 padding-4-8" *ngIf="category.categoryName == selItem.name">
+						<div class="card padding-4 border-color-6EABF5 color-015B8B">
+							<div class="panel-heading padding-5 bg-F4F8FC cursor-pointer;" (click)='currentCat = j; traySize="S";'>
+								<div class="margin-left-10 font-12"><i class="font-10 margin-right-10" class="{{j == currentCat ? 'fa fa-chevron-down fa-1' : 'fa fa-chevron-right fa-1'}}" aria-hidden="true"></i>{{category.description}} </div>
+							</div>
+							<div class="panel-collapse bg-F1F2F1 font-12 padding-10" [class.collapse]='currentCat != j' [class.collapse]='currentCat != j' >
+								<div class="row margin-10-0">
+									<div class="col-md-12">Choose Tray Size and Quantity</div>
+								</div>
+								<!--
+								<div class="row" style="padding: 5px; margin: 5px 0; background: #fff; border: 1px solid #6EABF5;">
+
+									<div class="col-md-9" style="padding: 0;">
+										<mat-radio-group [(ngModel)]="traySize">
+											<mat-radio-button value="S" >Small (${{category.smallPrice}})</mat-radio-button>
+											<mat-radio-button value="M" >Medium (${{category.mediumPrice}})</mat-radio-button>
+											<mat-radio-button value="L" >Large (${{category.largePrice}})</mat-radio-button>
+										</mat-radio-group>	
+										{{category.smallSelected}} - <mat-checkbox [(ngModel)]="category.smallSelected" [checked]="category.smallSelected">Small</mat-checkbox>
+									</div>		
+									<div class="col-md-3">
+										<input style="width: 40px; margin-left: 3px;display:inline;" class="form-control" size="2" maxlength="1" id="qty" name="qty" [ngModel]="selQuantity" (keypress)="numberOnly($event)">
+										<button class="btn btn-primary" (click)="addToCart(category)" style="float: right;">Add</button>
+									</div>
+								</div>
+								-->
+								<div class="row margin-10-0">
+									<div class="col-md-6">
+										<mat-checkbox [(ngModel)]="category.smallSelected" [checked]="category.smallSelected">Small (${{category.smallPrice}})</mat-checkbox>
+									</div>				
+									<div class="col-md-6">
+										<input class="form-control width-30 display-inline margin-left-5" size="2" maxlength="1" [(ngModel)]="category.smallQuantity" (keypress)="numberOnly($event)" disabled="{{!category.smallSelected}}">
+									</div>
+								</div>	
+								<div class="row margin-10-0">
+									<div class="col-md-6">
+										<mat-checkbox [(ngModel)]="category.mediumSelected" [checked]="category.mediumSelected">Medium (${{category.mediumPrice}})</mat-checkbox>
+									</div>		
+									<div class="col-md-6">
+										<input class="form-control width-30 display-inline margin-left-5" size="2" maxlength="1" [(ngModel)]="category.mediumQuantity" (keypress)="numberOnly($event)" disabled="{{!category.mediumSelected}}">
+									</div>
+								</div>	
+								<div class="row margin-10-0">
+									<div class="col-md-6">
+										<mat-checkbox [(ngModel)]="category.largeSelected" [checked]="category.largeSelected">Large (${{category.largePrice}})</mat-checkbox>
+									</div>		
+									<div class="col-md-3">
+										<input class="form-control width-30 display-inline margin-left-5" size="2" maxlength="1" [(ngModel)]="category.largeQuantity" (keypress)="numberOnly($event)" disabled="{{!category.largeSelected}}">
+									</div>
+									<div class="col-md-3">
+										<button class="btn btn-primary float-right" (click)="addToCart(category)">Add</button>
+									</div>																		
+								</div>									
+							</div>
+						</div>
+					</div>	
+				</div>
+			</div>
+
+		</div>
+		<div class="col-md-5">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card padding-20 font-12 border-color-6EABF5 border-left-8-6EABF5 border-right-8-6EABF5">
+						<h3>Order Details</h3>
+
+						<div class="row padding-5 border-top-1-6EABF5 border-bottom-1-6EABF5">
+							<div class="col-md-10">
+								Item
+							</div>
+							<div class="col-md-2 padding-left-0">
+								Price
+							</div>
+						</div>
+						<div class="row padding-5" *ngFor="let order of orderDetails; let i = index">
+							<div class="col-md-10 padding-left-0">
+								<i class="margin-right-10 cursor-pointer color-red" (click)="deleteItem(order)" aria-hidden="true" class="fa fa-trash-o fa-md"></i>
+								{{order.description}} - {{order.quantity}}
+							</div>
+							<div class="col-md-2 padding-left-0">
+								${{order.price}}
+							</div>
+						</div>
+
+						<div class="row padding-10-0-0-0 color-red bold">
+							<div class="col-md-10 padding-0"><span class="float-right">Total:</span></div>
+							<div class="col-md-2 padding-left-5"> ${{getOrderTotal()}}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row margin-10" *ngIf="orderDetails.length > 0">
+				<div class="col-md-4">
+					<button class="btn btn-primary" (click)="clearOrder()">Clear</button>
+				</div>					
+				<div class="col-md-3">
+					<!-- -->
+				</div>
+				<div class="col-md-5">
+					<button class="btn btn-primary float-right" [routerLink]="'/cart'">Checkout</button>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card padding-20 font-12 border-color-6EABF5 border-right-8-6EABF5 border-left-8-6EABF5">
+						<h3>Save Order</h3>
+
+						<div class="row padding-5 border-top-1-6EABF5">
+							<div class="col-md-12 padding-left-0 margin-top-20">
+								<label class="color-red">* </label>Email ID: 
+								<input class="form-control width-80p margin-left-5 display-inline" size="2" maxlength="50" [(ngModel)]="customer.email">
+							</div>
+						</div>
+
+						<div class="row padding-10-0-0-0 color-red bold">
+							<div class="col-md-10 padding-0" *ngIf="saveOrderMsg != ''">
+								<span class="color-green bold">{{saveOrderMsg}}</span>
+							</div>
+							<div class="col-md-2 padding-left-5">
+								<button class="btn btn-primary" (click)="saveOrder()">Save</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+</div>
+

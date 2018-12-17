@@ -1,0 +1,97 @@
+<div class="row" >
+	<div class="col-md-12 padding-10-10-0-20 margin-bottom-10">
+		<div class="border-bottom-2-6EABF5"><h2>Retrieve Saved Order</h2></div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="row" *ngIf="!isLoggedIn">
+			<div class="col-md-12">
+				<div class="card padding-20 font-12 border-color-6EABF5 border-right-8-6EABF5 border-left-8-6EABF5">
+					<span class="border-bottom-1-6EABF5"><h3>Login</h3></span>
+					<div class="row margin-20-0-10-0">
+						<div class="col-md-12">
+							<div class="col-md-3 text-right">
+								<font color=red>*</font>Email:
+							</div>
+							<div class="col-md-9">
+								<input type="text" class="form-control display-inline width-275" class="form-control" id="username" maxlength="50" placeholder="Enter email" [(ngModel)]="loginInfo.username" name="username" required/>
+							</div>
+						</div>
+					</div>
+					<div class="row margin-10-0">
+						<div class="col-md-12">
+							<div class="col-md-3 text-right">
+								<font color=red>*</font>Password:
+							</div>
+							<div class="col-md-9">
+								<input type="password" class="form-control display-inline width-275" class="form-control" id="password" maxlength="30" [(ngModel)]="loginInfo.password" name="password" required/>
+							</div>
+						</div>	
+					</div>
+					<div class="row margin-10-0">
+						<div class="col-md-10"></div>
+						<div class="col-md-2">
+							<button class="btn btn-primary" (click)="login()">Login</button>
+						</div>
+					</div>
+					<div class="row margin-10-0">
+						<div class="col-md-12">
+							<span class="font-11 color-777"> If you do not have a account setup, please enter your email address and click on 'Send OTP' link to get a One Time Password. </span>
+							<a href="javascript:void(0);" (click)="sendOTP()">Send OTP</a>
+							<label class="margin-left-20 font-10 color-777 normal" *ngIf="otpSent">(OTP Sent) </label>
+						</div>
+					</div>					
+				</div>					
+			</div>			
+		</div>
+	</div>
+</div>
+
+<div class="row" *ngIf="isLoggedIn">
+	<div class="col-md-12 font-14 bold">
+		<div class="card padding-20 font-12 border-color-6EABF5 border-right-8-6EABF5 border-left-8-6EABF5">
+			<h3>Order Details </h3>
+
+			<div class="row padding-5 border-top-1-6EABF5 border-bottom-1-6EABF5">
+				<div class="col-md-6">
+					Item
+				</div>
+				<div class="col-md-2">
+					Tray Size
+				</div>	
+				<div class="col-md-2">
+					Qty
+				</div>						
+				<div class="col-md-2 padding-left-0">
+					Price
+				</div>
+			</div>
+			<div class="row padding-5" *ngFor="let order of orderDetails; let i = index">
+				<div class="col-md-6 padding-left-0">
+					{{order.description.indexOf('(Small)') > 0 ? order.description.substring(0, order.description.indexOf('(Small)')) : order.description.indexOf('(Medium)') > 0 ? order.description.substring(0, order.description.indexOf('(Medium)')) : order.description.substring(0, order.description.indexOf('(Large)'))}}
+				</div>
+				<div class="col-md-2">
+					{{order.description.indexOf('(Small)') > 0 ? 'Small' : order.description.indexOf('(Medium)') > 0 ? 'Medium' : 'Large'}}
+				</div>		
+				
+				<div class="col-md-2">
+					{{order.quantity}}
+				</div>							
+				<div class="col-md-2 padding-left-0">
+					${{order.price}}
+				</div>
+			</div>
+
+			<div class="row padding-10-0-0-0 color-red bold">
+				<div class="col-md-10 padding-0"><span style="float: right">Total: </span></div>
+				<div class="col-md-2 padding-0"> ${{getOrderTotal()}}</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-12 margin-20-20-10-20">		
+		<button class="btn btn-primary" (click)="editOrder()">Edit</button>
+		<button class="btn btn-primary margin-left-30" (click)="checkout()">Checkout</button>
+	</div>
+</div>

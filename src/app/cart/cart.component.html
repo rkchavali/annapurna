@@ -1,0 +1,452 @@
+<div class="row" >
+	<div class="col-md-12 padding-10-10-0-20 margin-bottom-10">
+		<div class="border-bottom-2-6EABF5"><h2>Checkout</h2></div>
+	</div>
+</div>
+<div class="row" *ngIf="paymentSuccess">
+	<div [ngClass]="{'col-md-7': newCustomer, 'col-md-12': !newCustomer}">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card padding-20 font-12 border-color-6EABF5 border-right-8-6EABF5 border-left-8-6EABF5">
+					<span class="border-bottom-1-6EABF5 bold color-green"><h3>Payment Success</h3></span>
+					
+					<div class="row margin-20-0-10-0">
+						<div class="col-md-12 font-14">
+							Thank you for your order. Your order will be ready for pickup on the date specified. Please present a valid photo ID when picking up the order. 
+							If for any reason you need to cancel your order, please contact the SVLT Kitchen Coordinator @ xxx-xxx-xxxx at least 48 hours before the pickup time. <br/>
+						</div>						
+					</div>
+					
+					<div class="row margin-20-0-10-0">
+						<div class="col-md-12 font-14 bold">
+							Following order details have been successfully submitted!
+						</div>						
+					</div>			
+
+					<div class="row margin-20-0-10-0">
+						<div class="col-md-12 font-14 bold">
+							<div class="card padding-20 font-12 border-color-6EABF5">
+								<h3>Order Details <span class="color-red">( Order Id: {{order.id}} )</span></h3>
+
+								<div class="row padding-5 border-top-1-6EABF5 border-bottom-1-6EABF5">
+									<div class="col-md-8">
+										Item
+									</div>
+									<div class="col-md-2">
+										Qty
+									</div>						
+									<div class="col-md-2 padding-left-0">
+										Price
+									</div>
+								</div>
+								<div class="row padding-5" *ngFor="let order of orderDetails; let i = index">
+									<div class="col-md-8 padding-left-0">
+										{{order.description}}
+									</div>
+									<div class="col-md-2">
+										{{order.quantity}}
+									</div>							
+									<div class="col-md-2 padding-left-0">
+										${{order.price}}
+									</div>
+								</div>
+
+								<div class="row padding-10-0-0-0 color-red bold">
+									<div class="col-md-10 padding-0"><span class="float-right">Total: </span></div>
+									<div class="col-md-2 padding-0"> ${{getOrderTotal()}}</div>
+								</div>
+							</div>
+						</div>						
+					</div>	
+
+					<div class="row margin-20-0-10-0">
+						<div class="col-md-12 padding-0-5-5-5 border-bottom-1-6EABF5">
+							Personal Info
+						</div>						
+					</div>
+					<div class="row margin-10-0">
+						<div class="col-md-12">
+							<span class="margin-0-30-0-0">First Name: {{customer.firstName}}</span>
+							Last Name: {{customer.lastName}}
+						</div>						
+					</div>	
+
+					<div class="row margin-10-0">
+						<div class="col-md-12">
+							Address: {{customer.streetName}}, {{customer.cityName}}, {{customer.stateCode}} - {{customer.zipCode}}
+						</div>
+					</div>
+					<div class="row margin-10-0">
+						<div class="col-md-12">
+							<span class="margin-0-30-0-0">Phone: {{customer.phone}}</span>
+							Email: {{customer.email}}
+						</div>
+					</div>
+					<div class="row margin-20-0-10-0">
+						<div class="col-md-12">
+							Pickup Person Name: {{order.pickupPersonName}}
+						</div>
+					</div>
+					<div class="row margin-10-0">
+						<div class="col-md-12">
+							Pickup Date & Time: {{order.deliveryDate  | date:"MM/dd/yyyy"}} at {{order.pickupTime}}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-5" *ngIf="newCustomer">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card padding-20 font-12 border-color-6EABF5 border-right-8-6EABF5 border-left-8-6EABF5">
+					<span class="border-bottom-1-6EABF5"><h3>Create Account Password</h3></span>
+					<div class="row margin-20-0-10-0">
+						<div class="col-md-12">
+							<div class="col-md-3 text-right padding-0">
+								<font color=red>*</font>Email:
+							</div>
+							<div class="col-md-9">
+								{{customer.email}}
+							</div>
+						</div>
+					</div>
+					<div class="row margin-10-0">
+						<div class="col-md-12">
+							<div class="col-md-3 text-right padding-0">
+								<font color=red>*</font>Password:
+							</div>
+							<div class="col-md-9">
+								<input type="text" class="form-control display-inline width-275" class="form-control" id="password" maxlength="50"
+							  placeholder="Enter password" [(ngModel)]="customer.passCode" name="password" required/>
+							</div>
+						</div>
+					</div>
+					<div class="row margin-10-0">
+						<div class="col-md-12">
+							<div class="col-md-3 text-right padding-0">
+								<font color=red>*</font>Verify:
+							</div>
+							<div class="col-md-9">
+								<input type="password" class="form-control display-inline width-275" class="form-control" id="passwordverify" maxlength="30"
+								[(ngModel)]="customer.passCode" name="passwordverify" required/>
+							</div>
+						</div>	
+					</div>
+					<div class="row margin-10-0">
+						<div class="col-md-10">
+							<span *ngIf="accountCreated" class="color-green font-14 bold">Account created successfully!</span>
+						</div>
+						<div class="col-md-2">
+							<button class="btn btn-primary" (click)="createAccount()">Create</button>
+						</div>
+					</div>				
+				</div>					
+			</div>			
+		</div>
+	</div>
+</div>
+
+<div class="row" *ngIf="!paymentSuccess">
+
+	<div class="col-md-6" *ngIf="!isLoggedIn && !customerExists">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card padding-20 font-12 border-color-6EABF5 border-right-8-6EABF5 border-left-8-6EABF5">
+					<span class="border-bottom-1-6EABF5"><h3>Checkout</h3></span>
+					
+					<div class="row margin-20-0-10-0">
+						<div class="col-md-12">
+							<span class="margin-right-30">Existing Customer?</span> <button class="btn btn-primary" (click)="initLogin()">Login</button>
+						</div>						
+					</div>
+					<div class="row margin-10-0">
+						<div class="col-md-2"></div>
+						<div class="col-md-10">
+							'OR'
+						</div>						
+					</div>		
+					<div class="row margin-10-0">
+						<div class="col-md-12">
+							<span class="margin-right-30">New Customer? Continue as 'Guest'</span> <button class="btn btn-primary" (click)="processGuest()">Guest</button>
+						</div>						
+					</div>						
+				</div>
+			</div>
+		</div>
+	</div> 
+	
+	<div class="col-md-6" *ngIf="!isLoggedIn && customerExists">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card padding-20 font-12 border-color-6EABF5 border-right-8-6EABF5 border-left-8-6EABF5">
+					<span class="border-bottom-1-6EABF5"><h3>Login</h3></span>
+					<div class="row margin-20-0-10-0">
+						<div class="col-md-12">
+							<div class="col-md-3 text-right">
+								<font color=red>*</font>Email:
+							</div>
+							<div class="col-md-9">
+								<input type="text" class="form-control display-inline width-275" class="form-control" id="username" maxlength="50"
+							  placeholder="Enter email" [(ngModel)]="loginInfo.username" name="username" required/>
+							</div>
+						</div>
+					</div>
+					<div class="row margin-10-0">
+						<div class="col-md-12">
+							<div class="col-md-3 text-right">
+								<font color=red>*</font>Password:
+							</div>
+							<div class="col-md-9">
+								<input type="password" class="form-control display-inline width-275" class="form-control" id="password" maxlength="30"
+								[(ngModel)]="loginInfo.password" name="password" required/>
+							</div>
+						</div>	
+					</div>
+					<div class="row margin-10-0">
+						<div class="col-md-10"></div>
+						<div class="col-md-2">
+							<button class="btn btn-primary" (click)="login()">Login</button>
+						</div>
+					</div>					
+				</div>					
+			</div>			
+		</div>
+	</div>
+	
+	<div class="col-md-6" *ngIf="isLoggedIn">
+
+		<form class="form-horizontal" (ngSubmit)="onSave()">
+			<div class="row">
+				<div *ngIf="errorMessage != ''" class="col-md-12" >
+					<div class="col-md-11 margin-0 margin-bottom-20 padding-10 border-2-red order-radius-8">
+		  				<h3>{{this.errorMessage}}</h3>
+		  			</div>
+		  		</div>
+				<div class="col-md-12">
+					<div class="card padding-20 font-12 border-color-6EABF5 border-right-8-6EABF5 border-left-8-6EABF5">
+						<h3>Fill the following details and click 'Submit' button.</h3>
+						
+						<div class="row padding-top-20 border-top-1-6EABF5 margin-10-0">
+							<div class="col-md-12">
+								<font color=red>*</font>First Name:
+								<input type="text" class="form-control display-inline width-275" id="firstName" maxlength="30"
+					          placeholder="Enter first name" [(ngModel)]="customer.firstName" name="firstName" required/>
+							</div>
+						</div>	
+						<div class="row margin-10-0">
+							<div class="col-md-12">
+								<font color=red>*</font>Last Name:
+								<input type="text" class="form-control display-inline width-275" id="lastName" maxlength="30"
+					          placeholder="Enter last name" [(ngModel)]="customer.lastName" name="lastName" required/>
+							</div>
+						</div>
+						
+						<div class="row margin-10-0">
+							<div class="col-md-12">
+								<font color=red>*</font>Street Address:
+								<input type="text" class="form-control display-inline width-275" id="streetAddress" maxlength="50"
+					          placeholder="Enter street address" [(ngModel)]="customer.streetName" name="streetAddress" required/>
+							</div>
+						</div>
+						
+						<div class="row margin-10-0">
+							<div class="col-md-12">
+								
+								<font color=red>*</font>City:
+								<input type="text" class="form-control display-inline width-90" id="city" maxlength="30"
+								placeholder="Enter city name" [(ngModel)]="customer.cityName" name="city" required/>
+
+							  <span style="margin:0 20px;">
+									<font color=red>*</font>State:
+									<input type="text" class="form-control display-inline width-40" class="form-control" id="state" maxlength="2"
+									placeholder=" State code" [(ngModel)]="customer.stateCode" name="state" required/>
+								</span>		
+
+								<font color=red>*</font>Zipcode:
+								<input type="text" class="form-control display-inline width-90" class="form-control" id="zip" maxlength="5"
+								placeholder="Enter zipcode" [(ngModel)]="customer.zipCode" name="zip" required/>								
+							</div>
+						</div>	
+						
+						<div class="row margin-10-0">
+							<div class="col-md-12">
+								<font color=red>*</font>Phone Number:
+								<input type="text" class="form-control display-inline width-90" class="form-control" id="phone" maxlength="12"
+					          placeholder="Enter phone number" [(ngModel)]="customer.phone" name="phone" required/>
+							</div>
+						</div>		
+
+						<div class="row margin-10-0" style="margin: 10px 0;">
+							<div class="col-md-12">
+								<font color=red>*</font>Email:
+								<input type="text" class="form-control display-inline width-275" class="form-control" id="email" maxlength="50"
+					          placeholder="Enter email address" [(ngModel)]="customer.email" name="email" required/>
+							</div>
+						</div>						
+						
+						<div class="row padding-top-10 margin-10-0 border-top-1-6EABF5">
+							<div class="col-md-12">
+								<font color=red>*</font>Pickup Person Name:
+								<input type="text" class="form-control display-inline width-275" class="form-control" id="pickupPersonName" maxlength="20"
+					          placeholder="Enter pickup person name" [(ngModel)]="order.pickupPersonName" name="pickupPersonName" required/>
+							</div>
+						</div>
+
+						<div class="row margin-10-0" style="margin: 10px 0;">
+							<div class="col-md-6">
+								<font color=red>*</font>Pickup Date:
+								<input [bsConfig]="bsConfig" bsDatepicker type="text" class="form-control display-inline width-80" id="deliveryDate" [(ngModel)]="order.deliveryDate" name="deliveryDate" required [minDate]="minDate" />
+  								
+							</div>
+							<div class="col-md-6">
+								<font color=red>*</font>Pickup Time: 
+								<select id="pickupTime" name="pickupTime" class="form-control display-inline width-80" [(ngModel)]="order.pickupTime">
+									<option value="0" selected></option>
+									<option value="9 AM">9:00 AM</option>
+									<option value="10:00 AM">10:00 AM</option>
+									<option value="11:00 AM">11:00 AM</option>
+									<option value="12:00 PM">12:00 PM</option>
+									<option value="1:00 PM">1:00 PM</option>
+									<option value="2:00 PM">2:00 PM</option>
+									<option value="3:00 PM">3:00 PM</option>
+									<option value="4:00 PM">4:00 PM</option>
+									<option value="5:00 PM">5:00 PM</option>
+									<option value="6:00 PM">6:00 PM</option>
+									<option value="7:00 PM">7:00 PM</option>
+									<option value="8:00 PM">8:00 PM</option>
+								</select>
+
+							</div>
+						</div>
+
+						<div class="row" style="margin: 10px 0;">
+							<div class="card padding-20 font-12 border-color-6EABF5">
+								<div class="row">
+									<div class="col-md-12 bold bg-E0F1FC padding-5">Credit Card Details</div>
+
+									<div class="col-md-12 margin-10-0">
+								      <font color=red>*</font>Name on Card: 
+								      <input type="text" class="form-control display-inline width-320" id="nameOnCard" maxlength="30"
+								          placeholder="Enter credit card holder name" [(ngModel)]="order.nameOnCard" name="nameOnCard" required/>
+									</div>
+
+							
+									<div class="col-md-12 margin-10-0">
+								      <font color=red>*</font>Credit Card #: 
+								      <input type="text" class="form-control display-inline width-325" id="ccNumber" maxlength="16"
+								          placeholder="Enter credit card number" [(ngModel)]="order.ccNumber" name="ccNumber" required/>
+									</div>
+									<div class="col-md-12 margin-10-20">
+								      <font color=red>*</font>Expiration: 
+								      <select class="display-inline width-90 margin-0-10" id="ccExpiryMonth" name="ccExpiryMonth" [(ngModel)]="order.ccExpiryMonth">
+								      	<option value=0 selected>Month</option>
+								      	<option value="1">January</option>
+								      	<option value="2">February</option>
+								      	<option value="3">March</option>
+								      	<option value="4">APril</option>
+								      	<option value="5">May</option>
+								      	<option value="6">June</option>
+								      	<option value="7">July</option>
+								      	<option value="8">August</option>
+								      	<option value="9">September</option>
+								      	<option value="10">October</option>
+								      	<option value="11">November</option>
+								      	<option value="12">December</option>
+								      </select>
+								      <select class="display-inline width-60" id="ccExpiryYear" name="ccExpiryYear" [(ngModel)]="order.ccExpiryYear">
+								      	<option value=0 selected>Year</option>
+								      	<option value="2018">2018</option>
+								      	<option value="2019">2019</option>
+								      	<option value="2020">2020</option>
+								      	<option value="2021">2021</option>
+								      	<option value="2022">2022</option>
+								      	<option value="2023">2023</option>
+								      	<option value="2024">2024</option>
+								      	<option value="2025">2025</option>
+								      	<option value="2026">2026</option>
+								      	<option value="2027">2027</option>
+								      	<option value="2028">2028</option>
+								      </select>
+
+								      <span class="margin-left-30">
+								      	<font color=red>*</font>CVV: 
+								      	<input type="text" myNumberOnly size="4" maxlength="4" class="form-control display-inline width-50" 
+						            	id="ccCvv" placeholder="cvv #" [(ngModel)]="order.ccCvv" name="ccCvv" required/>
+								  	  </span>
+									</div>
+
+									<div class="col-md-12 margin-10-0" style="margin: 10px 0;">
+								      <span class="vertical-top">Comments: </span>
+								      <textarea rows="3" cols="40" class="form-control display-inline width-350" id="comments" placeholder="enter Comments"
+						            	[(ngModel)]="order.comments" name="comments"></textarea>
+									</div>
+									
+
+									<div class="col-md-12 margin-10 color-red bold">
+										Please check items in your order for any correction before submitting payment. Once order is placed, you will not be able to make any modifications.
+									</div>			
+									
+									<div class="col-md-12 margin-10-0">
+										<div class="col-md-2 pull-right">
+									      <button type="submit" class="btn btn-primary">Submit</button>
+									    </div>								
+									</div>
+								</div>	
+							</div>
+
+						</div>
+		          
+					</div>
+		  
+				</div>
+
+			</div>	
+		</form>
+	</div>
+	
+	<div class="col-md-6">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card padding-20 font-12 border-color-6EABF5 border-right-8-6EABF5 border-left-8-6EABF5">
+					<h3>Order Details</h3>
+					
+					<div class="row padding-5 border-top-1-6EABF5 border-bottom-1-6EABF5">
+						<div class="col-md-8">
+							Item
+						</div>
+						<div class="col-md-2">
+							Qty
+						</div>						
+						<div class="col-md-2 padding-left-0">
+							Price
+						</div>
+					</div>
+					<div class="row padding-5" *ngFor="let order of orderDetails; let i = index">
+						<div class="col-md-8 padding-left-0">
+							<i (click)="deleteItem(order)" aria-hidden="true" class="fa fa-trash-o fa-md margin-right-10 cursor-pointer color-red"></i>
+							{{order.description}}
+						</div>
+						<div class="col-md-2">
+							{{order.quantity}}
+						</div>							
+						<div class="col-md-2 padding-left-0">
+							${{order.price}}
+						</div>
+					</div>
+
+					<div class="row padding-10-0-0-0 color-red bold">
+						<div class="col-md-10 padding-0"><span class="float-right">Total: </span></div>
+						<div class="col-md-2 padding-0"> ${{getOrderTotal()}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row margin-10">
+			<div class="col-md-7"></div>
+			<div class="col-md-5"><button class="btn btn-primary" *ngIf="orderDetails.length > 0" [routerLink]="'/menu'" style="float: right;">Edit</button></div>
+		</div>
+	</div>	
+	
+</div>
